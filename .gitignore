@@ -11,4 +11,7 @@
 .env.test.local
 .env.production.local
 
+#Cache
+/__pycache__
+
 
