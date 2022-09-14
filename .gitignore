@@ -9,6 +9,6 @@
 
 #Cache log
 /__pycache__
-*.csv
+log_*.csv
 
 
