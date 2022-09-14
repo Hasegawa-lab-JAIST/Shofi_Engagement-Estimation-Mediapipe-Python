@@ -48,7 +48,7 @@ class VideoCamera(object):
             while self.video.isOpened():
                 success , image = self.video.read()
                 if not success:
-                    # print("Ignoring empty camera frame.")
+                    print("Ignoring empty camera frame.")
                     continue
 
                 # Convert BGR to RGB
@@ -59,7 +59,7 @@ class VideoCamera(object):
                 results = holistic.process(image)
                 # print(results.face_landmarks)
 
-                # Conver back to BGR
+                # Convert back to BGR
                 image.flags.writeable = True
                 image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
@@ -117,16 +117,13 @@ class VideoCamera(object):
                     # print(body_language_class, body_language_prob)
                     
                     # Get status box
-                    # cv2.rectangle(image, (0,0), (300,60), (245,117,16), -1)
                     cv2.rectangle(image, (0,0), (400,100), (117,117,16), -1)
                     
                     #Display class
                     pred = body_language_class.split(' ')[0]
                     cv2.putText(image, 'CLASS',
-                                # (95,12), font, 0.5, (0,0,0),1,cv2.LINE_AA)
                                 (150,35), font, 1, (0,0,255),2,cv2.LINE_AA)
                     cv2.putText(image, pred,
-                                # (95,40), font, 0.75, (255,255,255),1,cv2.LINE_AA)
                                 (150,75), font, 1, (255,255,255),2,cv2.LINE_AA)
                     
                     #Display probability
