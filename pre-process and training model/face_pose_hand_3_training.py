@@ -39,7 +39,6 @@ for algo, pipeline in pipeline.items():
 
 # print(fit_models)
 
-
 # 03. Evaluate and Serialize Model
 for algo, model in fit_models.items():
     yhat = model.predict(x_test)
@@ -48,9 +47,5 @@ for algo, model in fit_models.items():
 print(fit_models['rf'].predict(x_test))
 
 # 04. Save model in pickle
-# with open('engagement.pkl','wb') as f:
-#     pickle.dump(fit_models['rf'],f) # only save random forest (rf) model 
-
-# 04. Save model in json
-with open('engagement.json','wb') as json_file:
-    json_file.write(fit_models['rf']) # only save random forest (rf) model 
+with open('engagement.pkl','wb') as f:
+    pickle.dump(fit_models['rf'],f) # only save random forest (rf) model 
