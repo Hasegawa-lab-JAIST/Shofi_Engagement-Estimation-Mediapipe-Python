@@ -10,7 +10,7 @@ capture=0
 switch=0
 
 
-camera = cv2.VideoCapture(1)
+camera = cv2.VideoCapture(0)
 
 app = Flask(__name__, template_folder='./templates')
 
