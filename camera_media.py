@@ -131,10 +131,8 @@ class VideoCamera(object):
                     confi = " {:.1f}%".format(confi*100)
                     confi = str(confi)
                     cv2.putText(image, 'PROB',
-                                # (15,12), font, 0.5, (0,0,0),1, cv2.LINE_AA)
                                 (15,35), font, 1, (0,0,255),2, cv2.LINE_AA)
                     cv2.putText(image, confi, 
-                                # (0,40), font, 0.75, (255,255,255),1, cv2.LINE_AA)
                                 (0,75), font, 1, (255,255,255),2, cv2.LINE_AA)
                     
                     # # Export to CSV
