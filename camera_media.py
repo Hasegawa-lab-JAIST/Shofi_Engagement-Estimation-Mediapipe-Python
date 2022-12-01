@@ -37,7 +37,7 @@ with open('engagement.pkl', 'rb') as f:
 
 class VideoCamera(object):
     def __init__(self): #capturing video        
-        self.video = cv2.VideoCapture(1) #the source of video
+        self.video = cv2.VideoCapture(0) #the source of video
 
     def __del__(self): #releasing camera
         self.video.release()
