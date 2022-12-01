@@ -1,8 +1,12 @@
 # from _typeshed import OpenTextModeUpdating
 from flask import Flask, render_template, Response, request
+from flask_cors import CORS
 from camera_media import VideoCamera
 import os
 import cv2
+import pickle
+import numpy as np
+import pandas as pd
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
 global capture, rec_frame, rec, out, switch
@@ -13,10 +17,31 @@ switch=0
 camera = cv2.VideoCapture(0)
 
 app = Flask(__name__, template_folder='./templates')
+CORS(app)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 @app.route('/')
 def index(): #rendering webpage
     return render_template('index.html')
+
+@app.route('/api', methods=['POST'])
+def api():
+    landmark_from_js = request.get_json(force=True)
+    predict_from_py = get_pred(landmark_from_js)
+    return predict_from_py
+
+def get_pred(landmark_from_js):
+    with open('engagement.pkl', 'rb') as f:
+        model = pickle.load(f)
+    pose = landmark_from_js["landmark_from_js"]["poseLandmarks"]
+    pose_row = list(np.array([[landmark["x"], landmark["y"], landmark["z"], landmark["visibility"]] for landmark in pose]).flatten())
+    face = landmark_from_js["landmark_from_js"]["faceLandmarks"]
+    face_row = list(np.array([[landmark["x"], landmark["y"], landmark["z"]] for landmark in face]).flatten())            
+    row = pose_row+face_row
+    X = pd.DataFrame([row])
+    body_language_class = model.predict(X)[0]
+    body_language_prob = model.predict_proba(X)[0]
+    return {"class": body_language_class, "prob": body_language_prob}
 
 def gen(camera_media): ##activate VideoCamera feed
     global switch
