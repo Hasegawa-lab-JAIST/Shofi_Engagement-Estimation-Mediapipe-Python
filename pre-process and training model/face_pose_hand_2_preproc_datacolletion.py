@@ -15,7 +15,7 @@ mp_holistic = mp.solutions.holistic
 class_name = "NotEngaged"
 
 # Holistic Model (output: pose_landmarks, face_landmarks, left_hand_landmarks, right_hand_landmarks)
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 with mp_holistic.Holistic(
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5) as holistic:
@@ -78,7 +78,7 @@ with mp_holistic.Holistic(
             mp_drawing.DrawingSpec(color=(0,0,200), thickness=2, circle_radius=3),
             mp_drawing.DrawingSpec(color=(0,0,200), thickness=2, circle_radius=2))
 
-        #         # Export coordinates
+        ## Export coordinates
         try:
             # Extract pose landmark
             pose = results.pose_landmarks.landmark

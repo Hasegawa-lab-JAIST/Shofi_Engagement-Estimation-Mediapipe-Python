@@ -47,5 +47,5 @@ for algo, model in fit_models.items():
 print(fit_models['rf'].predict(x_test))
 
 # 04. Save model in pickle
-with open('engagement.pkl','wb') as f:
+with open('engagement_from_js.pkl','wb') as f:
     pickle.dump(fit_models['rf'],f) # only save random forest (rf) model 
