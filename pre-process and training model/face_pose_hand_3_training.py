@@ -50,13 +50,13 @@ for algo, model in fit_models.items():
 # lr 1.0
 # rc 0.9975550122249389
 # rf 0.9951100244498777
-# gb 1.0
+# gb 0.9975550122249389
 
 print(fit_models['lr'].predict(x_test))
 
 # 04. Save model in pickle
 with open('engagement_from_js.pkl','wb') as f:
-    pickle.dump(fit_models['rf'],f) # only save random forest (rf) model 
+    pickle.dump(fit_models['lr'],f) # only save random forest (rf) model 
 
 # # 04. Save model in json
 # with open('engagement.json','wb') as json_file:
