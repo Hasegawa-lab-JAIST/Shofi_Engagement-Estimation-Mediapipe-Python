@@ -16,7 +16,8 @@ from sklearn.metrics import accuracy_score
 import pickle
 
 # 01. Read data
-df = pd.read_csv('engagement.csv')
+df = pd.read_csv('engagement_from_js.csv')
+df = df.fillna(0)
 x = df.drop('class',axis=1) #features
 y = df['class'] #target
 
@@ -39,13 +40,24 @@ for algo, pipeline in pipeline.items():
 
 # print(fit_models)
 
+
 # 03. Evaluate and Serialize Model
 for algo, model in fit_models.items():
     yhat = model.predict(x_test)
     print(algo, accuracy_score(y_test,yhat))
 
-print(fit_models['rf'].predict(x_test))
+# Current result with engagement_from_js.csv
+# lr 1.0
+# rc 0.9975550122249389
+# rf 0.9951100244498777
+# gb 1.0
+
+print(fit_models['lr'].predict(x_test))
 
 # 04. Save model in pickle
 with open('engagement_from_js.pkl','wb') as f:
     pickle.dump(fit_models['rf'],f) # only save random forest (rf) model 
+
+# # 04. Save model in json
+# with open('engagement.json','wb') as json_file:
+#     json_file.write(fit_models['rf']) # only save random forest (rf) model 
