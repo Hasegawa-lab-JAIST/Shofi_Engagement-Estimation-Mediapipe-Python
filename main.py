@@ -2,20 +2,22 @@
 from flask import Flask, render_template, Response, request
 from flask_cors import CORS
 from camera_media import VideoCamera
+from camera_media_api import get_frame_api
 import os
 import cv2
 import pickle
 import csv
 import numpy as np
 import pandas as pd
+import warnings
+warnings.filterwarnings("ignore") # Trying to unpickle estimator Pipeline from version 0.24.0 when using version 0.24.2
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
 
 global capture, rec_frame, rec, out, switch
 capture=0
 switch=0
 
-
-camera = cv2.VideoCapture(1)
+camera = cv2.VideoCapture(0)
 
 app = Flask(__name__, template_folder='./templates')
 CORS(app)
@@ -27,23 +29,16 @@ def index(): #rendering webpage
 
 @app.route('/api', methods=['POST'])
 def api():
-    landmark_from_js = request.get_json(force=True)
+    # Sol2
+    # landmark_from_js = request.get_json(force=True)
+    # predict_from_py = get_pred(landmark_from_js)
+    # Sol 3
+    raw = request.get_json(force=True)
+    return get_frame_api(raw["encodedImage"])
 
-    class_name = "NormalEngaged"
-
-    ## create header row for csv
-    ## Run the following lines only once to create the dataset header
-    ## =========================================================================================
-    # pose = landmark_from_js["landmark_from_js"]["poseLandmarks"]
-    # face = landmark_from_js["landmark_from_js"]["faceLandmarks"]
-    # num_coords = len(pose)+len(face)
-    # row = ['class']
-    # for val in range(1,num_coords+1):
-    #    row += ['x{}'.format(val), 'y{}'.format(val), 'z{}'.format(val), 'v{}'.format(val)]
-    # with open('engagement_from_js.csv', mode='w', newline='') as f:
-    #     csv_writer = csv.writer(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-    #     csv_writer.writerow(row)
-    ## =========================================================================================
+def get_pred(landmark_from_js):
+    with open('engagement.pkl', 'rb') as f:
+        model = pickle.load(f)
 
     try:
         # Export coordinates
@@ -55,32 +50,63 @@ def api():
         # Concatenate rows
         row = pose_row+face_row
 
-        # Append class name
-        row.insert(0, class_name)
+        #Predict images with the model
+        X = pd.DataFrame([row])
+        body_language_class = model.predict(X)[0]
+        body_language_prob = model.predict_proba(X)[0]
 
-        # Export to CSV
-        with open('engagement_from_js.csv', mode='a', newline='') as f:
-            csv_writer = csv.writer(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            csv_writer.writerow(row)
-    
-    except:
+        # Class
+        pred = body_language_class.split(' ')[0]
+        # Probability Confidence
+        confi = body_language_prob[np.argmax(body_language_prob)]
+        confi = " {:.1f}%".format(confi*100)
+        confi = str(confi)
+        print("Test", pred)
+        return {"class": pred, "prob": confi}
+    except Exception as e: 
+        print('error', e)
         pass
+    return {"class": 0, "prob": 0} # Exception occurred
 
-#     predict_from_py = get_pred(landmark_from_js)
-#     return predict_from_py
+# Data Collection process
+# =======================================================================
+    # class_name = "VeryEngaged"
 
-# def get_pred(landmark_from_js):
-#     with open('engagement.pkl', 'rb') as f:
-#         model = pickle.load(f)
-#     pose = landmark_from_js["landmark_from_js"]["poseLandmarks"]
-#     pose_row = list(np.array([[landmark["x"], landmark["y"], landmark["z"], landmark["visibility"]] for landmark in pose]).flatten())
-#     face = landmark_from_js["landmark_from_js"]["faceLandmarks"]
-#     face_row = list(np.array([[landmark["x"], landmark["y"], landmark["z"]] for landmark in face]).flatten())            
-#     row = pose_row+face_row
-#     X = pd.DataFrame([row])
-#     body_language_class = model.predict(X)[0]
-#     body_language_prob = model.predict_proba(X)[0]
-#     return {"class": body_language_class, "prob": body_language_prob}
+    ## create header row for csv
+    ## Run the following lines only once to create the dataset header
+    ## =========================================================================================
+    # pose = landmark_from_js["landmark_from_js"]["poseLandmarks"]
+    # face = landmark_from_js["landmark_from_js"]["faceLandmarks"]
+    # num_coords = len(pose)+len(face)
+    # row = ['class']
+    # for val in range(1,num_coords+1):
+    #    row += ['x{}'.format(val), 'y{}'.format(val), 'z{}'.format(val), 'v{}'.format(val)]
+    # with open('engagement_from_js_2.csv', mode='w', newline='') as f:
+    #     csv_writer = csv.writer(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    #     csv_writer.writerow(row)
+    ## =========================================================================================
+
+    # try:
+    #     # Export coordinates
+    #     pose = landmark_from_js["landmark_from_js"]["poseLandmarks"]
+    #     pose_row = list(np.array([[landmark["x"], landmark["y"], landmark["z"], landmark["visibility"]] for landmark in pose]).flatten())
+    #     face = landmark_from_js["landmark_from_js"]["faceLandmarks"]
+    #     face_row = list(np.array([[landmark["x"], landmark["y"], landmark["z"]] for landmark in face]).flatten())
+
+    #     # Concatenate rows
+    #     row = pose_row+face_row
+
+    #     # # Uncomment the following lines to collect the landmarks in the dataset
+    #     # # ============================================================================
+    #     row.insert(0, class_name) # Append class name
+
+    #     with open('engagement_from_js_2.csv', mode='a', newline='') as f:
+    #         csv_writer = csv.writer(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    #         csv_writer.writerow(row)
+    
+    # except:
+    #     pass
+    # =========================================================================
 
 def gen(camera_media): ##activate VideoCamera feed
     global switch
