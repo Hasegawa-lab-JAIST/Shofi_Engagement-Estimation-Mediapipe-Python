@@ -33,8 +33,11 @@ def api():
     # landmark_from_js = request.get_json(force=True)
     # predict_from_py = get_pred(landmark_from_js)
     # Sol 3
-    raw = request.get_json(force=True)
-    return get_frame_api(raw["encodedImage"])
+    payload = request.get_json()
+    if (payload.get('timestamp') is None):
+        return {"class": 0, "prob": 0} # Error happens, return default value
+    return get_frame_api(payload["encodedImage"], payload["timestamp"]) #from camera_media_api
+    
 
 def get_pred(landmark_from_js):
     with open('engagement.pkl', 'rb') as f:
@@ -153,7 +156,7 @@ def tasks():
     return render_template('index.html')
 
 if __name__ == '__main__': #defining server ip address and port
-    app.run(host='0.0.0.0', port='5050', debug=True) #the app is running at localhost. the default port is 5000
+    app.run(host='0.0.0.0', port='5050', debug=True, threaded=True) #the app is running at localhost. the default port is 5000
    
 
 ''' 
