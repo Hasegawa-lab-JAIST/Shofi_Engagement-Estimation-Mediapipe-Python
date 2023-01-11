@@ -15,7 +15,7 @@ mp_holistic = mp.solutions.holistic
 class_name = "NotEngaged"
 
 # Holistic Model (output: pose_landmarks, face_landmarks, left_hand_landmarks, right_hand_landmarks)
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 with mp_holistic.Holistic(
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5) as holistic:
@@ -50,7 +50,7 @@ with mp_holistic.Holistic(
         mp_drawing.draw_landmarks(
             image, 
             results.face_landmarks, 
-            mp_holistic.FACE_CONNECTIONS,
+            mp_holistic.FACEMESH_TESSELATION,
             mp_drawing.DrawingSpec(color=(0,200,0), thickness=1, circle_radius=1),
             mp_drawing.DrawingSpec(color=(0,200,0), thickness=1, circle_radius=1))
 

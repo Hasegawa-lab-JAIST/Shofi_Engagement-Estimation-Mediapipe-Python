@@ -67,7 +67,7 @@ class VideoCamera(object):
                 mp_drawing.draw_landmarks(
                     image, 
                     results.face_landmarks, 
-                    mp_holistic.FACE_CONNECTIONS,
+                    mp_holistic.FACEMESH_TESSELATION,
                     mp_drawing.DrawingSpec(color=(0,200,0), thickness=1, circle_radius=1),
                     mp_drawing.DrawingSpec(color=(0,200,0), thickness=1, circle_radius=1))
 
