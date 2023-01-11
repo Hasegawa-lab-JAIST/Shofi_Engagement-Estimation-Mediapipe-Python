@@ -17,7 +17,7 @@ global capture, rec_frame, rec, out, switch
 capture=0
 switch=0
 
-camera = cv2.VideoCapture(0)
+camera = cv2.VideoCapture(1)
 
 app = Flask(__name__, template_folder='./templates')
 CORS(app)

@@ -33,14 +33,14 @@ with mp_holistic.Holistic(
 
         # # create header row for csv
         # # Run the following lines only once to create the dataset header
-        # =========================================================================================
+        # # =========================================================================================
         # row = ['class']
         # for val in range(1,num_coords+1):
         #     row += ['x{}'.format(val), 'y{}'.format(val), 'z{}'.format(val), 'v{}'.format(val)]
-        # with open('engagement.csv', mode='w', newline='') as f:
+        # with open('engagement_trial.csv', mode='w', newline='') as f:
         #     csv_writer = csv.writer(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         #     csv_writer.writerow(row)
-        # =========================================================================================
+        # # =========================================================================================
 
         # # pose_landmarks, face_landmarks, left_hand_landmarks, right_hand_landmarks
         # Recolor image back to BGR for rendering
@@ -97,7 +97,7 @@ with mp_holistic.Holistic(
             row.insert(0, class_name)
             
             # Export to CSV
-            with open('engagement.csv', mode='a', newline='') as f:
+            with open('engagement_trial.csv', mode='a', newline='') as f:
                 csv_writer = csv.writer(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                 csv_writer.writerow(row)
         
