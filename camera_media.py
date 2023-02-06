@@ -37,7 +37,7 @@ with open('engagement.pkl', 'rb') as f:
 
 class VideoCamera(object):
     def __init__(self): #capturing video        
-        self.video = cv2.VideoCapture(1) #the source of video
+        self.video = cv2.VideoCapture(0) #the source of video
 
     def __del__(self): #releasing camera
         self.video.release()
@@ -67,7 +67,7 @@ class VideoCamera(object):
                 mp_drawing.draw_landmarks(
                     image, 
                     results.face_landmarks, 
-                    mp_holistic.FACEMESH_TESSELATION,
+                    mp_holistic.FACE_CONNECTIONS,
                     mp_drawing.DrawingSpec(color=(0,200,0), thickness=1, circle_radius=1),
                     mp_drawing.DrawingSpec(color=(0,200,0), thickness=1, circle_radius=1))
 
