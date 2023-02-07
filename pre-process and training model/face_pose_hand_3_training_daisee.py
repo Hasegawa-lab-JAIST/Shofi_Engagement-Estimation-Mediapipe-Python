@@ -55,10 +55,10 @@ X_test, Y_test = split_label(df_test_av)
 
 # 02. Train ML classification (create 4 models)
 pipeline = {
-    'lr': make_pipeline(MinMaxScaler(), LogisticRegression()),
-    'rc': make_pipeline(MinMaxScaler(), RidgeClassifier()),
-    'rf': make_pipeline(MinMaxScaler(), RandomForestClassifier()),
-    'gb': make_pipeline(MinMaxScaler(), GradientBoostingClassifier())
+    'lr': make_pipeline(StandardScaler(), LogisticRegression()),
+    'rc': make_pipeline(StandardScaler(), RidgeClassifier()),
+    'rf': make_pipeline(StandardScaler(), RandomForestClassifier()),
+    'gb': make_pipeline(StandardScaler(), GradientBoostingClassifier())
 }
 
 # print(list(pipeline.values())[0])
@@ -85,5 +85,14 @@ for algo, model in fit_models.items():
 # print(fit_models['lr'].predict(X_test))
 
 # 04. Save model in pickle
-with open('engagement_DAiSEE.pkl','wb') as f:
-    pickle.dump(fit_models['rc'],f) # only save random forest (rf) model 
+with open('engagement_DAiSEE_lr.pkl','wb') as f:
+    pickle.dump(fit_models['lr'],f) # only save random forest (rf) model 
+
+with open('engagement_DAiSEE_rc.pkl','wb') as f:
+    pickle.dump(fit_models['rc'],f) # only save random forest (rf) mode
+
+with open('engagement_DAiSEE_rf.pkl','wb') as f:
+    pickle.dump(fit_models['rf'],f) # only save random forest (rf) model 
+
+with open('engagement_DAiSEE_gb.pkl','wb') as f:
+    pickle.dump(fit_models['gb'],f) # only save random forest (rf) model 
