@@ -32,12 +32,12 @@ with open(filename, mode='w', newline='') as f:
     csv_writer.writerow(header)
 
 # Load model
-with open('engagement.pkl', 'rb') as f:
+with open('pre-process and training model/engagement_DAiSEE_rf.pkl', 'rb') as f:
     model = pickle.load(f)
 
 class VideoCamera(object):
     def __init__(self): #capturing video        
-        self.video = cv2.VideoCapture(0) #the source of video
+        self.video = cv2.VideoCapture(2) #the source of video
 
     def __del__(self): #releasing camera
         self.video.release()
