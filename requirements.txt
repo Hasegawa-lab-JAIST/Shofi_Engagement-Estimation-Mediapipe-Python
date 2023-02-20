@@ -1,0 +1,47 @@
+absl-py==0.13.0
+appdirs==1.4.4
+attrs==21.2.0
+certifi @ file:///private/var/folders/sy/f16zz6x50xz3113nwtb9bvq00000gp/T/abs_477u68wvzm/croot/certifi_1671487773341/work/certifi
+charset-normalizer==2.1.1
+click @ file:///tmp/build/80754af9/click_1621604852318/work
+cycler==0.11.0
+distlib==0.3.1
+Flask @ file:///home/ktietz/src/ci/flask_1611932660458/work
+Flask-Cors==3.0.10
+flatbuffers==22.12.6
+fonttools==4.38.0
+idna==3.4
+importlib-metadata @ file:///opt/concourse/worker/volumes/live/4e25a0be-45cc-4b73-4314-4604f00e30a4/volume/importlib-metadata_1617877365451/work
+itsdangerous @ file:///tmp/build/80754af9/itsdangerous_1621432558163/work
+Jinja2 @ file:///tmp/build/80754af9/jinja2_1621238361758/work
+joblib==1.0.1
+kiwisolver==1.4.4
+lxml==4.9.1
+MarkupSafe @ file:///opt/concourse/worker/volumes/live/2165c944-5d03-464f-57c1-1df4e51b3ac3/volume/markupsafe_1621528146825/work
+matplotlib==3.5.3
+mediapipe==0.8.6.2
+mkl-fft==1.3.0
+mkl-random @ file:///opt/concourse/worker/volumes/live/45391dab-1d51-4226-600a-9065613b835f/volume/mkl_random_1618853975662/work
+mkl-service==2.3.0
+numpy @ file:///opt/concourse/worker/volumes/live/8f1c8f9f-9894-46f7-7adc-bf8ad6d8fadd/volume/numpy_and_numpy_base_1620831190001/work
+opencv-contrib-python==4.5.2.54
+opencv-python==3.4.18.65
+packaging==22.0
+pandas==1.2.4
+Pillow==9.3.0
+pip-date==1.0.5
+protobuf==3.17.3
+pyparsing==3.0.9
+python-dateutil @ file:///home/ktietz/src/ci/python-dateutil_1611928101742/work
+pytz @ file:///tmp/build/80754af9/pytz_1612215392582/work
+requests==2.28.1
+scikit-learn==0.24.2
+scipy==1.7.0
+six @ file:///opt/concourse/worker/volumes/live/f983ba11-c9fe-4dff-7ce7-d89b95b09771/volume/six_1605205318156/work
+sklearn==0.0
+threadpoolctl==2.1.0
+typing-extensions @ file:///home/ktietz/src/ci_mi/typing_extensions_1612808209620/work
+urllib3==1.26.13
+virtualenv==20.0.33
+Werkzeug @ file:///home/ktietz/src/ci/werkzeug_1611932622770/work
+zipp @ file:///tmp/build/80754af9/zipp_1615904174917/work
