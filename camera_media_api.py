@@ -22,7 +22,7 @@ prefix = "log/log_engagement"
 filename_format = "{:s}-{:%Y%m%d_%H%M}.{:s}"
 filename = filename_format.format(prefix, start_time, extension)
 header = ["Time", "States", "Probability"]
-with open("engagement.pkl", "rb") as f:
+with open("models/engagement.pkl", "rb") as f:
     model = pickle.load(f)
 def get_frame_api(encodedData, timeStamp):  # extracting frames
     with mp_holistic.Holistic(

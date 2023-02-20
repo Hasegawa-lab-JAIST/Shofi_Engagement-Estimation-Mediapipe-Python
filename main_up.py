@@ -1,8 +1,8 @@
 # from _typeshed import OpenTextModeUpdating
 from flask import Flask, render_template, Response, request
 from flask_cors import CORS
-from camera_media import VideoCamera
-# from camera_media_api import get_frame_api
+# from camera_media import VideoCamera
+from camera_media_api import get_frame_api
 import os
 import cv2
 import pickle
