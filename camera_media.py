@@ -32,7 +32,7 @@ with open(filename, mode='w', newline='') as f:
     csv_writer.writerow(header)
 
 # Load model
-with open('pre-process and training model/engagement_DAiSEE_rf.pkl', 'rb') as f:
+with open('models/engagement.pkl', 'rb') as f:
     model = pickle.load(f)
 
 class VideoCamera(object):

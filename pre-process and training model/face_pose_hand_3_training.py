@@ -16,7 +16,7 @@ from sklearn.metrics import accuracy_score
 import pickle
 
 # 01. Read data
-df = pd.read_csv('engagement_from_js.csv')
+df = pd.read_csv('engagement.csv')
 df = df.fillna(0)
 x = df.drop('class',axis=1) #features
 y = df['class'] #target
@@ -39,7 +39,6 @@ for algo, pipeline in pipeline.items():
     fit_models[algo] = model
 
 # print(fit_models)
-
 
 # 03. Evaluate and Serialize Model
 for algo, model in fit_models.items():
