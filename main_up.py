@@ -12,6 +12,7 @@ import pandas as pd
 import warnings
 warnings.filterwarnings("ignore") # Trying to unpickle estimator Pipeline from version 0.24.0 when using version 0.24.2
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
+from datetime import datetime
 
 global capture, rec_frame, rec, out, switch
 capture=0
@@ -22,6 +23,20 @@ camera = cv2.VideoCapture(0)
 app = Flask(__name__, template_folder='./templates')
 CORS(app)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+
+start_time = datetime.now()
+time_format = "{:%H:%M:%S}"
+extension = "csv"
+prefix = 'log/log_engagement'
+filename_format = "{:s}-{:%Y%m%d_%H%M}.{:s}"
+filename = filename_format.format(prefix, start_time, extension)
+header = ["Time", "States", "Probability"]
+
+# Create Header
+# ========================================================================================
+with open(filename, mode='w', newline='') as f:
+    csv_writer = csv.writer(f, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    csv_writer.writerow(header)
 
 @app.route('/')
 def index(): #rendering webpage
@@ -65,7 +80,20 @@ def get_pred(landmark_from_js):
         confi = " {:.1f}%".format(confi*100)
         confi = str(confi)
         print("Test", pred)
+
+        # # Export to CSV
+        # # ==============================================================================
+        tic = datetime.now()
+        tic_format = str(time_format.format(tic))
+        with open(filename, mode='a', newline='') as f:
+            fieldnames = ['Time', 'Class', 'Probability']
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            tic = datetime.now()
+            tic_format = time_format.format(tic)
+            writer.writerow({"Time":str(tic_format), "class":pred, "prob":confi})
+        
         return {"class": pred, "prob": confi}
+
     except Exception as e: 
         print('error', e)
         pass
@@ -157,9 +185,3 @@ def tasks():
 
 if __name__ == '__main__': #defining server ip address and port
     app.run(host='0.0.0.0', port='5050', debug=True, threaded=True) #the app is running at localhost. the default port is 5000
-   
-
-''' 
-ref for the buttons:
-https://towardsdatascience.com/camera-app-with-flask-and-opencv-bd147f6c0eec
-'''
