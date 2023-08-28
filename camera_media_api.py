@@ -55,6 +55,17 @@ def get_frame_api(encodedData, timeStamp):  # extracting frames
             confi = body_language_prob[np.argmax(body_language_prob)]
             confi = " {:.1f}%".format(confi*100)
             confi = str(confi)
+
+            # Write to CSV
+            # tic = datetime.now()
+            # tic_format = str(time_format.format(tic))
+            # with open(filename, mode='a', newline='') as f:
+            #     fieldnames = ['Time', 'class', 'prob']
+            #     writer = csv.DictWriter(f, fieldnames=fieldnames)
+            #     tic = datetime.now()
+            #     tic_format = time_format.format(tic)
+            #     writer.writerow({"Time":str(tic_format), "class":body_language_class, "prob":confi})
+                
             return {"class": body_language_class, "prob": confi}
         except Exception as e: 
             print('error', e)
